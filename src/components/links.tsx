@@ -18,10 +18,12 @@ export default function Links(props: { links: Array<any> }) {
     <div>
       {props.links.map((link: links) => (
         <div
-          className={`flex w-48 rounded-md bg-[${link.linkcolor}] text-[${link.textcolor}] `}
+          key={link.linkid}
+          className={`flex rounded-md w-full`}
+          style={{ backgroundColor: link.linkcolor, color: link.textcolor }}
         >
           <img src={link.linkicon} className="w-8" />
-          <Button asChild key={link.linkid} variant="ghost" className={``}>
+          <Button asChild key={link.linkid} variant="ghost">
             <Link href={link.linkhref}>{link.linkname}</Link>
           </Button>
         </div>

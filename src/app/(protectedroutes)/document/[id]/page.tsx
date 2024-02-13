@@ -8,9 +8,10 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import DocumentPageHeader from "./__components/header";
 import DocumentTextArea from "./__components/textarea";
-import Links from "./__components/links";
+import Links from "../../../../components/links";
 import CreateNewLinkForm from "./__components/newlinkform";
 import NewLinkButton from "./__components/newlinkbtn";
+import PublishButton from "./__components/publishbtn";
 
 const poppins = Poppins({ weight: ["400"], subsets: ["latin"] });
 
@@ -44,11 +45,15 @@ export default function DocumentPage() {
       {page !== null && page ? (
         <div className="flex justify-center items-center">
           <div className="flex flex-col gap-y-5">
-            <div className="flex justify-center text-center mt-2">
+            <div className="flex flex-col justify-center text-center mt-2">
               <DocumentPageHeader text={page.pagedetails.pagetitle} />
+              <PublishButton documentid={Number(id)} />
             </div>
             <div>
-              <DocumentTextArea />
+              <DocumentTextArea
+                documentid={Number(id)}
+                textareatext={page.pagedetails.pagetextcontent}
+              />
             </div>
             <div className="flex flex-col gap-y-2 justify-center items-center">
               <NewLinkButton
@@ -60,7 +65,10 @@ export default function DocumentPage() {
           </div>
           {newLink && (
             <div className="absolute justify-center items-center text-center">
-              <CreateNewLinkForm />
+              <CreateNewLinkForm
+                documentid={Number(id)}
+                closingfunction={showNewLink}
+              />
             </div>
           )}
         </div>
