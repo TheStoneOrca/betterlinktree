@@ -22,3 +22,5 @@ CREATE TABLE links(
 	linkicon TEXT,
 	linkbuttonpage INT REFERENCES linktreepages(pageid)
 );
+
+ALTER TABLE links ADD COLUMN textcolor TEXT;
