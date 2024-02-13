@@ -26,7 +26,7 @@ export default function useUser() {
 
   useEffect(() => {
     try {
-      if (reactsecurestorage.getItem("user_token") === null) {
+      if (reactsecurestorage.getItem("user_session") === null) {
         setUserData({ isLoaded: true, isSignedIn: false, user: null });
       } else {
         getUser(reactsecurestorage.getItem("user_session") as string).then(

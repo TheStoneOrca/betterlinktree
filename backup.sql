@@ -24,3 +24,8 @@ CREATE TABLE links(
 );
 
 ALTER TABLE links ADD COLUMN textcolor TEXT;
+
+CREATE TABLE premuimPurchase(
+	purchaseid SERIAL PRIMARY KEY,
+	purchasingperson INT REFERENCES users(userid)
+);

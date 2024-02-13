@@ -31,7 +31,7 @@ export default function CreatePageCard(props: { userid: number }) {
             try {
               CreatePage(data).then((res) => {
                 if (res.error) {
-                  setError("Unexpected error while creating server");
+                  setError(res.error);
                 } else {
                   window.location.href = `/document/${res.pageid}`;
                 }

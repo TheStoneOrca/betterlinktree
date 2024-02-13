@@ -12,6 +12,7 @@ export default function ProtectedRoutesLayout({
 
   useEffect(() => {
     if (!isLoaded) return;
+    return;
     if (!isSignedIn) window.location.href = "/signup";
   }, [isLoaded]);
   return <div>{children}</div>;

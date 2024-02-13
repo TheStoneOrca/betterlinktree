@@ -5,14 +5,33 @@ import { Loader2Icon } from "lucide-react";
 import Documents from "./__components/documents";
 import { cn } from "@/lib/utils";
 import { Poppins } from "next/font/google";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreatePageCard from "./__components/createpagecard";
+import BuyPremuiumBtn from "@/components/buyprem";
+import GetUserDocuments from "@/actions/getalluserdocs";
 
 const poppins = Poppins({ weight: ["400"], subsets: ["latin"] });
 
 export default function HomePage() {
   const [card, showCard] = useState<boolean>();
+  const [documents, setDocuments] = useState<Array<any>>();
   const { isLoaded, user } = useUser();
+
+  useEffect(() => {
+    if (!isLoaded || !user) return;
+    try {
+      GetUserDocuments(user.userid as any).then((res) => {
+        if (res.error) {
+          setDocuments([]);
+        } else {
+          setDocuments(res.documents);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      setDocuments([]);
+    }
+  }, [isLoaded]);
 
   return (
     <div
@@ -21,9 +40,14 @@ export default function HomePage() {
         poppins.className
       )}
     >
-      {isLoaded && user ? (
+      {isLoaded && user && documents ? (
         <>
           <div className="absolute flex justify-center">
+            <BuyPremuiumBtn
+              userid={user.userid as any}
+              username={user.username}
+              email={user.email}
+            />
             {card && (
               <div>
                 <CreatePageCard userid={user.userid as any} />
@@ -37,7 +61,11 @@ export default function HomePage() {
             <div className="h-full">
               <div className=" flex flex-col w-full dark:bg-[#232527]">
                 <h1 className="flex-start">Documents</h1>
-                <Documents showCardFunction={showCard} card={card} />
+                <Documents
+                  showCardFunction={showCard}
+                  card={card}
+                  documents={documents as any}
+                />
               </div>
             </div>
           </div>
