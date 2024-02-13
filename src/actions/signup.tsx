@@ -4,7 +4,7 @@ import pgInit from "./pgInit";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export default async function SignIn(data: FormData) {
+export default async function SignUp(data: FormData) {
   try {
     const database = await pgInit();
 
@@ -12,7 +12,6 @@ export default async function SignIn(data: FormData) {
       return { error: "Unexpected Server Error" };
     }
     const db = database.database;
-    let user;
 
     const checkUsername = await db.query(
       "SELECT * FROM users WHERE username = $1",
@@ -21,32 +20,32 @@ export default async function SignIn(data: FormData) {
     const checkEmail = await db.query("SELECT * FROM users WHERE email = $1", [
       data.get("email") as any,
     ]);
-    if (checkUsername.rows.length === 0) {
-      if (checkEmail.rows.length > 0) {
-        user = checkEmail.rows[0];
-      } else {
-        return { error: "User does not exist!" };
-      }
-    } else {
-      user = checkUsername.rows[0];
+    if (checkEmail.rows.length > 0 || checkUsername.rows.length > 0) {
+      return { error: "Username or Email already registered!" };
     }
 
-    const checkPassword = await bcrypt.compare(
+    const hashedPassword = await bcrypt.hash(
       data.get("password") as string,
-      user.password
+      10
     );
+
+    const user = await db.query(
+      "INSERT INTO users(username, password, email, userrole) VALUES($1, $2, $3, $4) RETURNING *",
+      [
+        data.get("username") as string,
+        hashedPassword,
+        data.get("email") as string,
+        "member",
+      ]
+    );
+
+    const userTOKEN = jwt.sign(user.rows[0], process.env.JWT_SECRET as string);
 
     await db.end();
 
-    if (checkPassword) {
-      return {
-        success: true,
-        userJWT: jwt.sign(user, process.env.JWT_SECRET as string),
-      };
-    } else {
-      return { error: "Invalid username or password." };
-    }
+    return { success: true, userJWT: userTOKEN };
   } catch (error) {
+    console.error(error);
     return { error: "Unexpected Server Error" };
   }
 }
