@@ -36,14 +36,23 @@ export default async function SignIn(data: FormData) {
       user.password
     );
 
-    await db.end();
-
     if (checkPassword) {
+      const userDetails = await db.query(
+        "SELECT userid, username, email, userrole FROM users WHERE userid = $1",
+        [user.userid]
+      );
+
+      await db.end();
+
       return {
         success: true,
-        userJWT: jwt.sign(user, process.env.JWT_SECRET as string),
+        userJWT: jwt.sign(
+          userDetails.rows[0],
+          process.env.JWT_SECRET as string
+        ),
       };
     } else {
+      await db.end();
       return { error: "Invalid username or password." };
     }
   } catch (error) {

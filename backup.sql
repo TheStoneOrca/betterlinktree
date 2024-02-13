@@ -6,8 +6,19 @@ CREATE TABLE users (
 	userrole TEXT
 );
 
-CREATE TABLE user_sessions (
-    id TEXT PRIMARY KEY,
-    expires_at TIMESTAMPTZ NOT NULL,
-    user_id INT REFERENCES users(userid)
+CREATE TABLE linktreepages(
+	pageid SERIAL PRIMARY KEY,
+	pagetitle TEXT,
+	pagetextcontent TEXT,
+	pageimage TEXT,
+	pagecreator INT REFERENCES users(userid)
+);
+
+CREATE TABLE links(
+	linkid SERIAL PRIMARY KEY,
+	linkname TEXT,
+	linkhref TEXT,
+	linkcolor TEXT,
+	linkicon TEXT,
+	linkbuttonpage INT REFERENCES linktreepages(pageid)
 );

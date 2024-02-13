@@ -30,7 +30,7 @@ export default async function SignUp(data: FormData) {
     );
 
     const user = await db.query(
-      "INSERT INTO users(username, password, email, userrole) VALUES($1, $2, $3, $4) RETURNING *",
+      "INSERT INTO users(username, password, email, userrole) VALUES($1, $2, $3, $4) RETURNING userid, username, email, userrole",
       [
         data.get("username") as string,
         hashedPassword,

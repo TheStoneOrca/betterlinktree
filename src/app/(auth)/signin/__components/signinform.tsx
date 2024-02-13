@@ -15,6 +15,7 @@ import { Eye } from "lucide-react";
 import FormError from "@/components/formerror";
 import ReactSecureStorage from "react-secure-storage";
 import SignIn from "@/actions/signin";
+import FormRedirect from "@/components/formhref";
 
 export default function SignInForm() {
   const [password, setPassword] = useState<string>();
@@ -22,9 +23,9 @@ export default function SignInForm() {
   const [error, setError] = useState<string>();
 
   return (
-    <Card className="w-96">
+    <Card className="w-96 dark:bg-[#0f0f0f] dark:text-white dark:border-black">
       <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
+        <CardTitle>Sign In</CardTitle>
         <CardDescription>Gain Access To The Next LinkWeb!</CardDescription>
       </CardHeader>
       <CardContent>
@@ -44,6 +45,7 @@ export default function SignInForm() {
                 }
               });
             } catch (error) {
+              console.error(error);
               setError("Unexpected Server Error!");
             }
           }}
@@ -91,7 +93,11 @@ export default function SignInForm() {
           </div>
           {error && <FormError message={error} />}
 
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit">Sign In</Button>
+
+          <br />
+
+          <FormRedirect type="login" />
         </form>
       </CardContent>
     </Card>

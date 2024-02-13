@@ -2,7 +2,7 @@
 
 import pg from "pg";
 
-const pgInit = async () => {
+export default async function pgInit() {
   try {
     const db = new pg.Client({
       host: "localhost",
@@ -19,6 +19,4 @@ const pgInit = async () => {
     console.error(error);
     return { error: error };
   }
-};
-
-export default pgInit;
+}
