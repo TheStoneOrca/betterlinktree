@@ -35,7 +35,7 @@ export default function PublishButton(props: { documentid: number }) {
         <Button type="submit">Publish</Button>
 
         {card && (
-          <Card>
+          <Card className="">
             <CardHeader>
               <CardTitle>Page Url</CardTitle>
               <CardDescription>

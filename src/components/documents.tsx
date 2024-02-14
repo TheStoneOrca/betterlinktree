@@ -18,15 +18,15 @@ export default function Documents(props: {
   documents: Array<any>;
 }) {
   return (
-    <div className="flex items-center gap-x-4">
+    <div className="flex flex-col items-center gap-y-4">
       <div className="ml-24 mr-16">
-        <NewPageBtn
-          showCardFunction={props.showCardFunction}
-          card={props.card}
-        />
+        <NewPageBtn />
       </div>
       {props.documents.map((document) => (
-        <Card className="w-52 h-48 dark:bg-[#171717] dark:border-[#171717] dark:text-white">
+        <Card
+          className="w-52 h-48 dark:bg-[#171717] dark:border-[#171717] dark:text-white"
+          key={document.pageid}
+        >
           <CardHeader>
             <CardTitle>{document.pagetitle}</CardTitle>
           </CardHeader>

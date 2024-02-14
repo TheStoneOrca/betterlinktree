@@ -18,8 +18,6 @@ export default async function PublishPage(data: FormData) {
 
     const pagename = page.rows[0].pagetitle.replace(/\s+/g, "-").toLowerCase();
 
-    console.log(pagename);
-
     return {
       success: true,
       pageurl: `${process.env.DOMAIN}/page/${pagename}?id=${page.rows[0].pageid}`,

@@ -12,6 +12,7 @@ import Links from "../../../../components/links";
 import CreateNewLinkForm from "./__components/newlinkform";
 import NewLinkButton from "./__components/newlinkbtn";
 import PublishButton from "./__components/publishbtn";
+import useUser from "@/hooks/useuser";
 
 const poppins = Poppins({ weight: ["400"], subsets: ["latin"] });
 
@@ -23,18 +24,24 @@ export default function DocumentPage() {
   const [newLink, showNewLink] = useState<boolean>(false);
 
   const { id } = useParams();
+  const { isLoaded, user } = useUser();
 
   useEffect(() => {
+    if (!isLoaded) return;
     GetPageDetails(Number(id) as any).then((res) => {
       if (res.error) {
-        window.location.href = "/";
+        window.location.href = "/home";
       } else if (res.pagedetails && res.pagelinks) {
-        setPage({ pagedetails: res.pagedetails, pagelinks: res.pagelinks });
+        if (user?.userid !== res.pagedetails.pagecreator) {
+          window.location.href = "/home";
+        } else {
+          setPage({ pagedetails: res.pagedetails, pagelinks: res.pagelinks });
+        }
       } else {
-        window.location.href = "/";
+        window.location.href = "/home";
       }
     });
-  }, []);
+  }, [isLoaded]);
   return (
     <div
       className={cn(
