@@ -13,6 +13,7 @@ export default function NewLinkButton(props: {
         props.openfunction(!props.openstatus);
       }}
     >
+      Add Link
       <Plus />
     </Button>
   );

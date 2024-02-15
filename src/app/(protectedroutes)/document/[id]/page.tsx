@@ -13,6 +13,9 @@ import CreateNewLinkForm from "./__components/newlinkform";
 import NewLinkButton from "./__components/newlinkbtn";
 import PublishButton from "./__components/publishbtn";
 import useUser from "@/hooks/useuser";
+import { Button } from "@/components/ui/button";
+import UnPublishButton from "./__components/unpublishbtn";
+import UrlViewCard from "./__components/pageviewcard";
 
 const poppins = Poppins({ weight: ["400"], subsets: ["latin"] });
 
@@ -22,6 +25,8 @@ export default function DocumentPage() {
     pagelinks: Array<any>;
   }>();
   const [newLink, showNewLink] = useState<boolean>(false);
+  const [showLink, setShowLink] = useState<boolean>();
+  const [pageUrl, setPageUrl] = useState<string>();
 
   const { id } = useParams();
   const { isLoaded, user } = useUser();
@@ -36,6 +41,12 @@ export default function DocumentPage() {
           window.location.href = "/home";
         } else {
           setPage({ pagedetails: res.pagedetails, pagelinks: res.pagelinks });
+          document.title = res.pagedetails.pagetitle;
+          setPageUrl(
+            `${process.env.NEXT_PUBLIC_DOMAIN}/page/${res.pagedetails.pagetitle
+              .replace(/\s+/g, "-")
+              .toLowerCase()}?id=${res.pagedetails.pageid}`
+          );
         }
       } else {
         window.location.href = "/home";
@@ -54,7 +65,17 @@ export default function DocumentPage() {
           <div className="flex flex-col gap-y-5">
             <div className="flex flex-col justify-center text-center mt-2">
               <DocumentPageHeader text={page.pagedetails.pagetitle} />
-              <PublishButton documentid={Number(id)} />
+              {page.pagedetails.public === true ? (
+                <div>
+                  <UnPublishButton documentid={Number(id)} />
+                  <Button onClick={() => setShowLink(!showLink)}>
+                    Show Link
+                  </Button>
+                  {showLink && <UrlViewCard cardUrl={pageUrl as any} />}
+                </div>
+              ) : (
+                <PublishButton documentid={Number(id)} />
+              )}
             </div>
             <div>
               <DocumentTextArea

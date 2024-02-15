@@ -5,6 +5,7 @@ import Links from "@/components/links";
 import { Loader2Icon } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import "@/components/textarea.css";
 
 export default function PublicLinkPage() {
   const [pageDetails, setPageDetails] = useState<any>();
@@ -19,14 +20,13 @@ export default function PublicLinkPage() {
         window.location.href = "/";
       } else {
         GetPublicPageDetails(Number(pageid)).then((res) => {
-          if (res.error) {
+          if (res.error || !res.pagedetails) {
             window.location.href = "/";
           } else {
             const pageName = res.pagedetails.pagetitle
               .replace(/\s+/g, "-")
               .toLowerCase();
             if (name !== pageName) return (window.location.href = "/");
-            console.log(res.pagedetails);
             setPageDetails({
               pagedetails: res.pagedetails,
               pagelinks: res.pagelinks,

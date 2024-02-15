@@ -10,7 +10,6 @@ import {
 import NewPageBtn from "./newpagebtn";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import CreatePageCard from "./createpagecard";
 
 export default function Documents(props: {
   showCardFunction: any;
@@ -19,9 +18,7 @@ export default function Documents(props: {
 }) {
   return (
     <div className="flex flex-col items-center gap-y-4">
-      <div className="ml-24 mr-16">
-        <NewPageBtn />
-      </div>
+      <NewPageBtn />
       {props.documents.map((document) => (
         <Card
           className="w-52 h-48 dark:bg-[#171717] dark:border-[#171717] dark:text-white"

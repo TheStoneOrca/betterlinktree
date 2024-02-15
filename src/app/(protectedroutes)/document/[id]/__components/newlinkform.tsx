@@ -61,7 +61,7 @@ export default function CreateNewLinkForm(props: {
 
           <div>
             <Label>Card Icon</Label>
-            <Input type="file" name="cardicon" required />
+            <Input type="file" accept=".png, .jpg" name="cardicon" required />
           </div>
 
           <div>

@@ -36,16 +36,6 @@ export default function HomePage() {
               </div>
             </div>
             <div className="h-[34rem]" />
-            {/* <div className="h-full">
-              <div className="w-64 h-full flex flex-col dark:bg-[#232527]">
-                <h1 className="flex-start">Documents</h1>
-                <Documents
-                  showCardFunction={showCard}
-                  card={card}
-                  documents={documents as any}
-                />
-              </div>
-            </div> */}
           </div>
         </>
       ) : (

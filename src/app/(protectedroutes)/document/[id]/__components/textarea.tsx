@@ -5,11 +5,11 @@ import { ListBulletIcon } from "@radix-ui/react-icons";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Bold, Italic } from "lucide-react";
-import "./textarea.css";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import SaveTextArea from "@/actions/savetextarea";
 import FormError from "@/components/formerror";
+import "@/components/textarea.css";
 
 export default function DocumentTextArea(props: {
   textareatext?: string;
@@ -30,7 +30,7 @@ export default function DocumentTextArea(props: {
     content: props.textareatext as any | "<h1>This is your bio</h1>",
     editorProps: {
       attributes: {
-        class: "w-72 dark:border-white border-black border h-96",
+        class: "w-64 dark:border-white border-black border h-96",
       },
     },
     onUpdate: ({ editor }) => {

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import UrlViewCard from "./pageviewcard";
 
 export default function PublishButton(props: { documentid: number }) {
   const [card, showCard] = useState<boolean>();
@@ -34,19 +35,7 @@ export default function PublishButton(props: { documentid: number }) {
         <Input type="hidden" value={props.documentid} name="pageid" />
         <Button type="submit">Publish</Button>
 
-        {card && (
-          <Card className="">
-            <CardHeader>
-              <CardTitle>Page Url</CardTitle>
-              <CardDescription>
-                Your page's url. Share it to give people access to your links.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Input type="text" value={cardUrl} />
-            </CardContent>
-          </Card>
-        )}
+        {card && <UrlViewCard cardUrl={cardUrl as any} />}
       </form>
     </div>
   );
